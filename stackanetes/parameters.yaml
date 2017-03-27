@@ -13,6 +13,7 @@ deployment:
     base: "quay.io/stackanetes/stackanetes-%s:newton"
 
 network:
+  bridge_interface: "eth1"
   # Network interface name on the Kubernetes nodes.
   minion_interface_name: "eno1"
   # List of IPs of Kubernetes nodes that may be used
