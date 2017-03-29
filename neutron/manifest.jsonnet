@@ -9,7 +9,7 @@ kpm.package({
     name: "stackanetes/neutron",
     expander: "jinja2",
     author: "Quentin Machu",
-    version: "0.2.0",
+    version: "0.2.1",
     description: "neutron",
     license: "Apache 2.0",
   },
@@ -145,6 +145,13 @@ kpm.package({
       file: "configmaps/init.sh.yaml.j2",
       template: (importstr "templates/configmaps/init.sh.yaml.j2"),
       name: "neutron-initsh",
+      type: "configmap",
+    },
+
+    {
+      file: "configmaps/l3-agent.sh.yaml.j2",
+      template: (importstr "templates/configmaps/l3-agent.sh.yaml.j2"),
+      name: "neutron-l3agentsh",
       type: "configmap",
     },
 

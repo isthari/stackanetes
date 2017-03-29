@@ -7,6 +7,7 @@ data:
 
     bridge=$1
     port=$2
+    ensure_external_bridge=$3
 
     ovs-vsctl br-exists $bridge; rc=$?
     if [[ $rc == 2 ]]; then
@@ -16,7 +17,9 @@ data:
 
     if [[ ! $(ovs-vsctl list-ports $bridge) =~ $(echo "\<$port\>") ]]; then
         changed=changed
-        ovs-vsctl --no-wait add-port $bridge $port
+        if [ "$ensure_external_bridge" = True ] ; then
+            ovs-vsctl --no-wait add-port $bridge $port
+        fi
     fi
 
     echo $changed

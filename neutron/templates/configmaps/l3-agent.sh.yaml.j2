@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  l3-agent.sh: |+
+    #!/bin/bash
+    set -xe
+    
+    bash /tmp/openvswitch-ensure-configured.sh {{ neutron.bridge_name }} {{ network.bridge_interface }} {{ network.ensure_external_bridge }}
+    neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3-agent.ini --config-file /etc/neutron/plugins/ml2/ml2-conf.ini

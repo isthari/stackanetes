@@ -30,12 +30,18 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: COMMAND
-              value: "neutron-l3-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/l3-agent.ini --config-file /etc/neutron/plugins/ml2/ml2-conf.ini"
+              value: "bash /tmp/l3-agent.sh"
             - name: DEPENDENCY_JOBS
               value: "nova-init,neutron-init,nova-post"
             - name: DEPENDENCY_SERVICE
               value: "neutron-server,rabbitmq,nova-api"
           volumeMounts:
+            - name: neutron-l3agentsh
+              mountPath: /tmp/l3-agent.sh
+              subPath: l3-agent.sh
+            - name: openvswitchensureconfiguredsh
+              mountPath: /tmp/openvswitch-ensure-configured.sh
+              subPath: openvswitch-ensure-configured.sh
             - name: neutronconf
               mountPath: /etc/neutron/neutron.conf
               subPath: neutron.conf
@@ -57,6 +63,12 @@ spec:
               mountPath: /proc/sys
             {%- endif %}
       volumes:
+        - name: neutron-l3agentsh
+          configMap:
+            name: neutron-l3agentsh
+        - name: openvswitchensureconfiguredsh
+          configMap:
+            name: neutron-openvswitchensureconfiguredsh
         - name: neutronconf
           configMap:
             name: neutron-neutronconf
